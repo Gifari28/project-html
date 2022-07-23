@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Function Point Calculator</title>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+
+  <style>
+    * {
+      margin: 0px;
+      font-family: arial;
+      color: white;
+    }
+
+    main {
+      background-color: rgb(78, 13, 163);
+      height: 650px;
+    }
+
+    header {
+      background-color: rgb(17, 10, 119);
+      padding-top: 8px;
+      font-size: 20px;
+      text-align: center;
+      height: 50px;
+      font-size: 25px;
+    }
+
+    #input-form {
+      margin: auto;
+      max-width: 1000px;
+      padding-top: 20px;
+    }
+
+    h5 {
+      text-align: center;
+    }
+
+    #form-fpc {
+      width: 500px;
+      margin-right: 50px;
+      float: left;
+    }
+
+    /* FPC column label */
+    #form-fpc :nth-child(2) {
+      text-align: center;
+    }
+
+    /* Merapikan input form FPC */
+    #form-fpc>.form-group>.row {
+      margin: auto;
+    }
+
+    #result-button {
+      margin-top: 10px;
+    }
+
+    #button-calculate {
+      clear: both;
+      margin: auto;
+    }
+
+    footer {
+      background-color: rgb(64, 27, 112);
+      height: 40px;
+      padding-top: 7px;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <p>Function Point Calculator</p>
+  </header>
+
+  <main>
+    <div id="input-form">
+      <!-- Input form FPC -->
+      <form id="form-fpc">
+        <h5>Function Point Complexity</h5>
+        <!-- Label kolom -->
+        <div class="form-group">
+          <div class="row">
+            <div class="col"></div>
+            <div class="col">
+              <label>Low</label>
+            </div>
+            <div class="col">
+              <label>Medium</label>
+            </div>
+            <div class="col">
+              <label>Height</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Kode untuk input form fpc per-baris beserta labelnya -->
+
+        <div class="form-group">
+          <div class="row">
+            <div class="col">
+              <label data-toggle="tooltip" data-placement="bottom"
+                title="External Input (EI) adalah proses dasar yang memproses data dan informasi kontrol yang datang dari luar batasan aplikasi.">
+                External Input</label>
+            </div>
+            <div class="col">
+              <input type="number" name="external-input-simple" class="fpc form-control" placeholder="0">
+            </div>
+            <div class="col">
+              <input type="number" name="external-input-average" class="fpc form-control" placeholder="0">
+            </div>
+            <div class="col">
+              <input type="number" name="external-input-complex" class="fpc form-control" placeholder="0">
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="row">
+            <div class="col">
+              <label data-toggle="tooltip" data-placement="bottom"
+                title="External Output (EO) adalah sebuah proses dasar dimana hasil data dilewatkan dari dalam ke keluar dari batasan aplikasi.">
+                External output</label>
+            </div>
+            <div class="col">
+              <input type="number" name="external-output-simple" class="fpc form-control" placeholder="0">
+            </div>
+            <div class="col">
+              <input type="number" name="external-output-average" class="fpc form-control" placeholder="0">
+            </div>
+            <div class="col">
+              <input type="number" name="external-output-complex" class="fpc form-control" placeholder="0">
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="row">
+            <div class="col">
+              <label data-toggle="tooltip" data-placement="bottom"
+                title="Internal Logical File (ILF) adalah kelompok data atau kelompok informasi kontrol yang digunakan dalam aplikasi.">
+                Internal Logical File</label>
+            </div>
+            <div class="col">
+              <input type="number" name="ilf-simple" class="fpc form-control" placeholder="0">
+            </div>
+            <div class="col">
+              <input type="number" name="ilf-average" class="fpc form-control" placeholder="0">
+            </div>
+            <div class="col">
+              <input type="number" name="ilf-complex" class="fpc form-control" placeholder="0">
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="row">
+            <div class="col">
+              <label data-toggle="tooltip" data-placement="bottom"
+                title="External Interface File (EIF) adalah kelompok data berelasi atau informasi kontrol yang dirujuk oleh aplikasi, tapi dipelihara oleh aplikasi lain.">
+                External Interface File</label>
+            </div>
+            <div class="col">
+              <input type="number" name="exif-simple" class="fpc form-control" placeholder="0">
+            </div>
+            <div class="col">
+              <input type="number" name="exif-average" class="fpc form-control" placeholder="0">
+            </div>
+            <div class="col">
+              <input type="number" name="exif-complex" class="fpc form-control" placeholder="0">
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="row">
+            <div class="col">
+              <label data-toggle="tooltip" data-placement="bottom"
+                title="External Inquiry (EQ) fungsi utamanya adalah menyediakan informasi ke user melalui pengambilan/pemrosesan data atau informasi kontrol dari ILF/EIF.">
+                External Inquiry</label>
+            </div>
+            <div class="col">
+              <input type="number" name="ei-simple" class="fpc form-control" placeholder="0">
+            </div>
+            <div class="col">
+              <input type="number" name="ei-average" class="fpc form-control" placeholder="0">
+            </div>
+            <div class="col">
+              <input type="number" name="ei-complex" class="fpc form-control" placeholder="0">
+            </div>
+          </div>
+        </div>
+      </form>
+
+      <!-- Input form TCA -->
+      <form id="form-tca">
+        <h5>Technical Complexity Adjustment</h5>
+
+        <!-- Kode Input form TCA per-baris yang terdiri dari 3 kolom -->
+
+        <div class="row">
+          <div class="col">
+            <div class="form-group">
+              <label data-toggle="tooltip" data-placement="bottom" title="Data communications" align="center">C1</label>
+              <input class="vaf form-control" type="number" placeholder="0">
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <label data-toggle="tooltip" data-placement="bottom" title="Distributed function">C2</label>
+              <input class="vaf form-control" type="number" placeholder="0">
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <label data-toggle="tooltip" data-placement="bottom" title="Performance objectives">C3</label>
+              <input class="vaf form-control" type="number" placeholder="0">
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <div class="form-group">
+              <label data-toggle="tooltip" data-placement="bottom" title="Heavily used configuration">C4</label>
+              <input class="vaf form-control" type="number" placeholder="0">
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <label data-toggle="tooltip" data-placement="bottom" title="Transaction rate">C5</label>
+              <input class="vaf form-control" type="number" placeholder="0">
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <label data-toggle="tooltip" data-placement="bottom" title="On-line data entry">C6</label>
+              <input class="vaf form-control" type="number" placeholder="0">
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <div class="form-group">
+              <label data-toggle="tooltip" data-placement="bottom" title="End-user efficiency">C7</label>
+              <input class="vaf form-control" type="number" placeholder="0">
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <label data-toggle="tooltip" data-placement="bottom" title="On-line update">C8</label>
+              <input class="vaf form-control" type="number" placeholder="0">
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <label data-toggle="tooltip" data-placement="bottom" title="Complex processing">C9</label>
+              <input class="vaf form-control" type="number" placeholder="0">
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <div class="form-group">
+              <label data-toggle="tooltip" data-placement="bottom" title="Reusability">C10</label>
+              <input class="vaf form-control" type="number" placeholder="0">
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <label data-toggle="tooltip" data-placement="bottom" title="Installation ease">C11</label>
+              <input class="vaf form-control" type="number" placeholder="0">
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <label data-toggle="tooltip" data-placement="bottom" title="Operational ease">C12</label>
+              <input class="vaf form-control" type="number" placeholder="0">
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <div class="form-group">
+              <label data-toggle="tooltip" data-placement="bottom" title="Multiple sites">C13</label>
+              <input class="vaf form-control" type="number" placeholder="0">
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <label data-toggle="tooltip" data-placement="bottom" title="Facilitate change">C14</label>
+              <input class="vaf form-control" type="number" placeholder="0">
+            </div>
+          </div>
+          <div class="col"></div>
+        </div>
+      </form>
+
+      <!-- Tombol hitung -->
+      <div id="result-button" class="form-group">
+        <div class="row">
+          <div class="col"></div>
+          <div id="button-calculate">
+            <button id="calculate" class="btn btn-primary" onclick="calculateFP()">Hitung Function Point</button>
+          </div>
+          <div class="col"></div>
+        </div>
+      </div>
+
+      <!-- Form hasil -->
+      <div class="form-group">
+        <div class="row">
+          <div class="col"></div>
+          <div class="col">
+            <input id="result" type="number" class="form-control" placeholder="0" disabled />
+          </div>
+          <div class="col"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    Made with &#10084; by @mramirid
+  </footer>
+</body>
+
+<script>
+  const complexityWeight = [3, 4, 6, 4, 5, 7, 7, 10, 15, 5, 7, 10, 3, 4, 6];
+
+  function calculateFP() {
+    const ufp = Array.prototype.reduce.call(
+      document.getElementsByClassName("fpc"),
+      (prevVal, fpcInput, i) => prevVal + (+fpcInput.value * complexityWeight[i]),
+      0
+    );
+    const tdi = Array.prototype.reduce.call(
+      document.getElementsByClassName("vaf"),
+      (prevVal, vafInput) => prevVal + +vafInput.value,
+      0
+    );
+    const tca = 0.65 + 0.01 * tdi;
+    const fp = ufp * tca;
+    document.getElementById("result").value = fp;
+  }
+</script>
+
+<script>
+  // Untuk memberikan efek tooltip Bootstrap
+  $(() => $('[data-toggle="tooltip"]').tooltip());
+</script>
+
+</html>
