@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.debug.js"></script>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <title>Pendataan Parkiran</title>
+  <link rel="icon" href="/sourcecode/assets/simbol.png">
+  <style>
+    
+    .chartBox {
+      float: left; display: block; width: 500px; margin: 70px;
+    }
+    .chartBox1 {
+      float: right; display: block; width: 500px; margin: 70px;
+    }
+  </style>
+</head>
+<br>
+
+<body>
+  
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark text-light sticky-top">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Data Parking</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link " aria-current="page" href="/sourcecode/index.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/sourcecode/Data/data.html">Crud</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Others
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="/sourcecode/auth/signup.html">Sign in</a></li>
+              <li><a class="dropdown-item active" href="/sourcecode/chart/chart.html">Chart</a></li>
+              <li><a class="dropdown-item" id="signout">Logout</a></li>
+            </ul>
+          </li>
+        </ul>
+        <form class="d-flex">
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-light" type="submit">Search</button>
+        </form>
+      </div>
+    </div>
+  </nav>
+
+  <button onclick="generatePDF()" class="btn btn-outline-danger">Export PDF</button><br>
+<div id="export" >
+<!--ekspor dengan nama default-->
+<button onclick="diagrambatangHtmlToExcel('diagramData')" >Data Diagram To Excel </button>
+    </div>
+
+  <div id="data">
+  <div class="chartBox">
+    <h1 style="text-align: center;">Data Diagram Batang</h1>
+    <canvas id="myChart"></canvas>
+  </div>
+
+  <div class="chartBox1">
+    <h1 style="text-align: center;">Data Diagram Lingkaran</h1>
+    <canvas id="PieChart"></canvas>
+  </div>
+</div>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <canvas id="myChart" width="400" height="400"></canvas>
+<script>
+  
+  //setup
+  const data = {
+    labels: ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni'],
+        datasets: [{
+            label: '# of Votes',
+            data: [30, 15, 20, 35, 28, 47],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+  };
+  //config
+  const config = {
+    type: 'bar',
+    data,
+    options: {
+        plugins: {
+            legend: {
+                display: false, 
+                }
+        },
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+  }
+  //render init block
+  const myChart = new Chart (
+    document.getElementById('myChart'),
+    config
+  );
+function generatePDF() {
+                    const canvas = document.getElementById("myChart");
+                    // create image
+                    const image = canvas.toDataURL("image/png");
+                    // image to pdf
+                    let pdf = new jsPDF();
+                    pdf.setFontSize(20);
+                    pdf.addImage(image, 'JPEG', 10, 10, 180, 180);
+                    pdf.save("chart.pdf");
+                }
+
+  //config
+  const config2 = {
+    type: 'pie',
+    data,
+    options: {
+        plugins: {
+            legend: {
+                display: false, 
+                }
+        },
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+  }
+  // render init block
+  const LineChart = new Chart (
+    document.getElementById('PieChart'),
+    config2
+  );
+function generatePDF() {
+                    const canvas = document.getElementById("myChart");
+                    // create image
+                    const image = canvas.toDataURL("image/png");
+                    // image to pdf
+                    let pdf = new jsPDF();
+                    pdf.setFontSize(20);
+                    pdf.addImage(image, 'JPEG', 10, 10, 180, 180);
+                    pdf.save("chart.pdf");
+                }
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+</body>
+</html>
