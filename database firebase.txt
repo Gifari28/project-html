@@ -1,0 +1,7 @@
+Untuk mengecek database pada aplikasi yang telah kita bikin yaitu :
+1. Masukkan email dan password untuk mengakses database firebase kita, disini saya menggunakan email pribadi saya
+2. Lalu klik file yang telah kita buat yang bernama database karyawan
+3. Untuk mengecek data aku yang telah dibuat pada halaman daftar dan login kita bisa melihat dibagian "authentication"
+4. Untuk bagian CRUD kita dapat mengecek pada bagian realtime database
+
+Tambahan, pada aplikasi yang telah kelompok kami buat hanya perlu menjalankan aplikasi tersebut seperti biasa, nantinya database langsung ikut terconnect pada halaman website, dan jangan lupa untuk mengganti domainnya menjadi localhost.
